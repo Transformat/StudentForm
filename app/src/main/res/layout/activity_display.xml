@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="studentinfo.example.com.studentform.activites.Display">
+
+    <LinearLayout
+        android:id="@+id/view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LIST VIEW"
+            android:id="@+id/button_list_view"
+            android:textColor="#000000"
+            android:onClick="onClick" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GRID VIEW"
+            android:id="@+id/button_grid_view"
+            android:textColor="#000000"
+            android:onClick="onClick"
+
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_layout"
+        android:text="Sort by:"
+        android:id="@+id/sorttv"
+        android:textColor="#000000"
+        android:textSize="30sp" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/sorttv"
+        android:layout_below="@+id/view_layout"
+        android:id="@+id/spinner_sort"
+        android:layout_marginLeft="30dp" />
+
+
+    <ListView
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_add"
+        android:layout_below="@+id/sorttv"
+        android:id="@+id/listView">
+
+    </ListView>
+
+    <GridView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_add"
+        android:layout_below="@+id/sorttv"
+        android:numColumns="auto_fit"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:id="@+id/gridView"
+        android:visibility="invisible"
+        android:stretchMode="columnWidth"
+
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Student"
+        android:onClick="onClick"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:background="#ffcb3a26"
+        android:id="@+id/button_add" />
+
+
+</RelativeLayout>

@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="studentinfo.example.com.studentform.Enter_info"
+    android:background="#c3ffd0eb"
+
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter the details"
+        android:textSize="40sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:id="@+id/edithead_tv"
+        android:textColor="#ff7851ff"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edithead_tv"
+        android:text="Enter name:"
+        android:textSize="30sp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/tv2"
+        android:textColor="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv2"
+        android:text="Enter Rollno:"
+        android:textSize="30sp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/tv3"
+        android:textColor="#000000" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv2"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="27dp"
+        android:hint="Enter name"
+        android:id="@+id/edit1"
+        android:textColor="#000000" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv3"
+        android:layout_below="@+id/tv2"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:hint="Enter Rollno."
+        android:inputType="number"
+        android:textColor="#000000"
+        android:id="@+id/edit2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit2"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="60dp"
+        android:text="Submit"
+        android:textStyle="bold"
+        android:id="@+id/button_submit"
+        android:onClick="onClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/button_submit"
+        android:layout_below="@+id/edit2"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="90dp"
+        android:text="Cancel"
+        android:textStyle="bold"
+        android:onClick="onClick"
+        android:id="@+id/button_cancel" />
+
+
+</RelativeLayout>
