@@ -11,77 +11,85 @@
         android:weightSum="2">
 
         <Button
+            android:id="@+id/button_list_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClick"
             android:text="LIST VIEW"
-            android:id="@+id/button_list_view"
-            android:textColor="#000000"
-            android:onClick="onClick" />
+            android:textColor="#000000" />
 
         <Button
+            android:id="@+id/button_grid_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="GRID VIEW"
-            android:id="@+id/button_grid_view"
-            android:textColor="#000000"
             android:onClick="onClick"
+            android:text="GRID VIEW"
+            android:textColor="#000000"
 
             />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/sorttv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_layout"
         android:text="Sort by:"
-        android:id="@+id/sorttv"
         android:textColor="#000000"
         android:textSize="30sp" />
 
     <Spinner
+        android:id="@+id/spinner_sort"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/sorttv"
         android:layout_below="@+id/view_layout"
-        android:id="@+id/spinner_sort"
-        android:layout_marginLeft="30dp" />
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/sorttv" />
 
 
     <ListView
 
+        android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button_add"
-        android:layout_below="@+id/sorttv"
-        android:id="@+id/listView">
+        android:layout_below="@+id/sorttv">
 
     </ListView>
 
     <GridView
+        android:id="@+id/gridView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_add"
+        android:layout_above="@+id/get_details"
         android:layout_below="@+id/sorttv"
-        android:numColumns="auto_fit"
         android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:id="@+id/gridView"
-        android:visibility="invisible"
+        android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"
+        android:visibility="invisible"
 
         />
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Student"
+        android:layout_above="@+id/button_add"
+        android:id="@+id/get_details"
+        android:text="Details"
         android:onClick="onClick"
-        android:textStyle="bold"
+        />
+
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#ffcb3a26"
-        android:id="@+id/button_add" />
+        android:onClick="onClick"
+        android:text="Add Student"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

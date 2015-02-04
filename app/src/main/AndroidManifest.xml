@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="studentinfo.example.com.studentform" >
+    package="studentinfo.example.com.studentform">
 
     <application
         android:allowBackup="true"
@@ -18,15 +18,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".activites.Display"
-            android:label="@string/title_activity_display" >
-        </activity>
+            android:label="@string/title_activity_display"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".activites.EnterInfo"
-            android:label="Enter Info" >
-        </activity>
+            android:label="Enter Info"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

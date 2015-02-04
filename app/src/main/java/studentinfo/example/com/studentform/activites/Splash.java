@@ -1,8 +1,8 @@
 package studentinfo.example.com.studentform.activites;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import studentinfo.example.com.studentform.R;
 
@@ -17,7 +17,7 @@ public class Splash extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
