@@ -66,9 +66,9 @@ public class DbController implements DbConstants {
         return allStudents;
     }
 
-    public void dbDelete(Student student) {
+    public int dbDelete(Student student) {
 
-        db.delete("student_info", "roll_no =?", new String[]{String.valueOf(student.rollno)});
+        return db.delete("student_info", "roll_no =?", new String[]{String.valueOf(student.rollno)});
 
     }
 

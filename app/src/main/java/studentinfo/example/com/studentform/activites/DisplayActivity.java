@@ -1,9 +1,9 @@
 package studentinfo.example.com.studentform.activites;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,7 @@ import studentinfo.example.com.studentform.util.GridViewAdapter;
 import studentinfo.example.com.studentform.util.ListAdapter;
 
 
-public class Display extends ActionBarActivity implements AppConstants {
+public class DisplayActivity extends Activity implements AppConstants {
     public int clickPosition;
     DbController dbController;
     ListView listView;
@@ -48,7 +49,7 @@ public class Display extends ActionBarActivity implements AppConstants {
         setContentView(R.layout.activity_display);
         displayListButton = (Button) findViewById(R.id.button_list_view);
         displayGridButton = (Button) findViewById(R.id.button_grid_view);
-        getDetails= (Button) findViewById(R.id.get_details);
+        getDetails = (Button) findViewById(R.id.get_details);
         displayListButton.setBackgroundColor(0xff3b70cb);
         displayGridButton.setBackgroundColor(0xFFD6D7D7);
         listView = (ListView) findViewById(R.id.listView);
@@ -61,12 +62,12 @@ public class Display extends ActionBarActivity implements AppConstants {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList);
         student = new ArrayList<>();
         student.clear();
-        dbController = new DbController(Display.this);
+        dbController = new DbController(DisplayActivity.this);
         dbController.dbOpen();
         student = dbController.dbView();
         dbController.dbClose();
-        adapter = new ListAdapter(student, Display.this);
-        gridAdapter = new GridViewAdapter(student, Display.this);
+        adapter = new ListAdapter(student, DisplayActivity.this);
+        gridAdapter = new GridViewAdapter(student, DisplayActivity.this);
         displayGrid.setAdapter(gridAdapter);
         spinner.setAdapter(spinnerAdapter);
         listView.setAdapter(adapter);
@@ -110,13 +111,11 @@ public class Display extends ActionBarActivity implements AppConstants {
                         gridAdapter.notifyDataSetChanged();
                     }
                     spinner.setSelection(0);
-
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -126,7 +125,7 @@ public class Display extends ActionBarActivity implements AppConstants {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_add:
-                Intent intent = new Intent(this, EnterInfo.class);
+                Intent intent = new Intent(this, EnterInfoActivity.class);
                 intent.putExtra("requestCode", RECEIVE_CODE_ADD);
                 startActivityForResult(intent, REQUEST_CODE_ADD_STUDENT);
                 break;
@@ -137,12 +136,10 @@ public class Display extends ActionBarActivity implements AppConstants {
                 displayGridButton.setBackgroundColor(0xFFD6D7D7);
                 break;
             case R.id.button_grid_view:
-
                 listView.setVisibility(View.INVISIBLE);
                 displayGrid.setVisibility(View.VISIBLE);
                 displayGridButton.setBackgroundColor(0xff3b70cb);
                 displayListButton.setBackgroundColor(0xFFD6D7D7);
-
                 break;
             case R.id.get_details:
                 dbController.dbOpen();
@@ -175,7 +172,6 @@ public class Display extends ActionBarActivity implements AppConstants {
                 adapter.notifyDataSetChanged();
                 gridAdapter.notifyDataSetChanged();
             } else if (resultCode == RESULT_CANCELED) {
-
             }
 
         }
@@ -201,7 +197,6 @@ public class Display extends ActionBarActivity implements AppConstants {
                 adapter.notifyDataSetChanged();
                 gridAdapter.notifyDataSetChanged();
             } else if (resultCode == RESULT_CANCELED) {
-
             }
         }
 
@@ -210,7 +205,7 @@ public class Display extends ActionBarActivity implements AppConstants {
 
     public void displayDialog(int postionRecieved) {
         final int position = postionRecieved;
-        dialog = new Dialog(Display.this);
+        dialog = new Dialog(DisplayActivity.this);
         dialog.setContentView(R.layout.dialogbox);
         dialog.setTitle("Select an option.");
         dialogDelete = (Button) dialog.findViewById(R.id.dialog_delete);
@@ -220,10 +215,13 @@ public class Display extends ActionBarActivity implements AppConstants {
         dialogDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                student.remove(position);
                 dbController.dbOpen();
-                dbController.dbDelete(student.get(position));
+                int resultDelete = dbController.dbDelete(student.get(position));
                 dbController.dbClose();
+                if (resultDelete == 1) {
+                    student.remove(position);
+                    Toast.makeText(DisplayActivity.this, "Item removed sucessfully", Toast.LENGTH_SHORT).show();
+                }
                 adapter.notifyDataSetChanged();
                 gridAdapter.notifyDataSetChanged();
                 dialog.dismiss();
@@ -233,7 +231,7 @@ public class Display extends ActionBarActivity implements AppConstants {
             @Override
             public void onClick(View v) {
                 clickPosition = position;
-                Intent intent = new Intent(Display.this, EnterInfo.class);
+                Intent intent = new Intent(DisplayActivity.this, EnterInfoActivity.class);
                 intent.putExtra("requestCode", RECEIVE_CODE_EDIT);
                 intent.putExtra("name", student.get(position).name);
                 intent.putExtra("roll", student.get(position).rollno);
@@ -246,7 +244,7 @@ public class Display extends ActionBarActivity implements AppConstants {
         dialogView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Display.this, EnterInfo.class);
+                Intent intent = new Intent(DisplayActivity.this, EnterInfoActivity.class);
                 intent.putExtra("requestCode", RECEIVE_CODE_VIEW);
                 intent.putExtra("name", student.get(position).name);
                 intent.putExtra("roll", student.get(position).rollno);
@@ -258,6 +256,5 @@ public class Display extends ActionBarActivity implements AppConstants {
         });
         dialog.show();
     }
-
 }
 

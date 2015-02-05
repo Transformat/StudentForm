@@ -1,0 +1,75 @@
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#ff3effad"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:textSize="40sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:id="@+id/tv_login" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_login"
+        android:text="Username:"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginTop="40dp"
+        android:id="@+id/tv_username" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="username"
+        android:layout_below="@+id/tv_login"
+        android:layout_toRightOf="@+id/tv_username"
+        android:layout_marginTop="40dp"
+        android:textSize="25sp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/edit_username" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_username"
+        android:text="Password:"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginTop="40dp"
+        android:id="@+id/tv_password" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="password"
+        android:layout_below="@+id/tv_username"
+        android:layout_toRightOf="@+id/tv_password"
+        android:layout_marginTop="40dp"
+        android:inputType="textPassword"
+        android:textSize="25sp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/edit_password" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textColor="#000000"
+        android:layout_below="@+id/tv_password"
+        android:layout_marginTop="100dp"
+        android:textSize="30sp"
+        android:background="#ffff0005"
+        android:onClick="onClick"
+        />
+
+
+</RelativeLayout>
