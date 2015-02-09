@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +30,19 @@ public class DbController implements DbConstants {
         db.close();
     }
 
-    public void dbInsert(Student student) {
+    public long dbInsert(Student student) {
         try {
             ContentValues cv = new ContentValues();
             cv.put(STUDENT_ROLL, Integer.parseInt(student.rollno));
             cv.put(STUDENT_NAME, student.name);
             cv.put(STUDENT_PHONE, student.phoneNumber);
             cv.put(STUDENT_ADDRESS, student.address);
-            db.insert("student_info", null, cv);
+            return db.insert("student_info", null, cv);
         } catch (Exception e) {
-            Log.d("except", e.toString());
+
         }
+
+        return 0;
     }
 
     public List<Student> dbView() {

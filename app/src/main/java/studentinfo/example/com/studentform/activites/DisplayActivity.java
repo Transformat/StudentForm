@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,17 +148,22 @@ public class DisplayActivity extends Activity implements AppConstants {
                 String getRoll = data.getStringExtra("rollno");
                 String getPhone = data.getStringExtra("phone");
                 String getAddress = data.getStringExtra("address");
-                adapter.students.add(new Student(getName, getRoll, getPhone, getAddress));
-                Collections.sort(student, new Comparator<Student>() {
-                    @Override
-                    public int compare(Student lhs, Student rhs) {
-                        return lhs.name.compareTo(rhs.name);
-                    }
-                });
                 dbController.dbOpen();
-                dbController.dbInsert(new Student(getName, getRoll, getPhone, getAddress));
+                long result = dbController.dbInsert(new Student(getName, getRoll, getPhone, getAddress));
                 dbController.dbClose();
-                adapter.notifyDataSetChanged();
+                if (result > 0) {
+                    adapter.students.add(new Student(getName, getRoll, getPhone, getAddress));
+                    Collections.sort(adapter.students, new Comparator<Student>() {
+                        @Override
+                        public int compare(Student lhs, Student rhs) {
+                            return lhs.name.compareTo(rhs.name);
+                        }
+                    });
+
+                    Toast.makeText(this, "Details Entered Successfully.", Toast.LENGTH_LONG).show();
+                    adapter.notifyDataSetChanged();
+                } else
+                    Toast.makeText(this, "Roll no. already exists.", Toast.LENGTH_SHORT).show();
             } else if (resultCode == RESULT_CANCELED) {
             }
 

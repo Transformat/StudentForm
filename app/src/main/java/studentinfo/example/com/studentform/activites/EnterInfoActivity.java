@@ -9,15 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import studentinfo.example.com.studentform.R;
 import studentinfo.example.com.studentform.util.AppConstants;
 
 
 public class EnterInfoActivity extends ActionBarActivity implements AppConstants {
-    public static List<String> rollnoList = new ArrayList<String>();
+    //    public static List<String> rollnoList = new ArrayList<String>();
     Button submit;
     Button cancel;
     EditText editName;
@@ -46,7 +43,7 @@ public class EnterInfoActivity extends ActionBarActivity implements AppConstants
             String receiveAddress = getIntent().getStringExtra("address");
             editName.setText(recieveName);
             editRoll.setText(recieveRollno);
-            rollnoList.remove(recieveRollno);
+//            rollnoList.remove(recieveRollno);
             editRoll.setClickable(false);
             editRoll.setFocusable(false);
             editPhone.setText(recievePhone);
@@ -87,24 +84,21 @@ public class EnterInfoActivity extends ActionBarActivity implements AppConstants
                     Toast.makeText(this, "Fields are empty", Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent();
-                    if (rollnoList.contains(editRoll.getText().toString())) {
-                        Toast.makeText(this, "Rollno already exists.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (editName.getText().toString().startsWith(" ") ||
+
+                    if (editName.getText().toString().startsWith(" ") ||
                                 editPhone.getText().toString().startsWith(" ") ||
                                 editAddress.getText().toString().startsWith(" ")) {
-                            Toast.makeText(this, "Enter details without space in front.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            rollnoList.add(editRoll.getText().toString());
+                        Toast.makeText(this, "Enter details without space in front.", Toast.LENGTH_SHORT).show();
+                    } else {
+//                            rollnoList.add(editRoll.getText().toString());
                             intent.putExtra("name", editName.getText().toString());
                             intent.putExtra("rollno", editRoll.getText().toString());
                             intent.putExtra("phone", editPhone.getText().toString());
                             intent.putExtra("address", editAddress.getText().toString());
-                            Toast.makeText(this, "Deltails Entered Sucessfully", Toast.LENGTH_LONG).show();
                             setResult(RESULT_OK, intent);
                             finish();
                         }
-                    }
+
                 }
                 break;
             case R.id.button_cancel:
