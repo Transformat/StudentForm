@@ -96,7 +96,7 @@ public class EnterInfoActivity extends ActionBarActivity implements AppConstants
                             Toast.makeText(this, "Enter details without space in front.", Toast.LENGTH_SHORT).show();
                         } else {
                             rollnoList.add(editRoll.getText().toString());
-                            intent.putExtra("name", editName.getText().toString().toUpperCase());
+                            intent.putExtra("name", editName.getText().toString());
                             intent.putExtra("rollno", editRoll.getText().toString());
                             intent.putExtra("phone", editPhone.getText().toString());
                             intent.putExtra("address", editAddress.getText().toString());

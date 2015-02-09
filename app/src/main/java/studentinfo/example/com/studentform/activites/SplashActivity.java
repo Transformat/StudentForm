@@ -3,7 +3,6 @@ package studentinfo.example.com.studentform.activites;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import studentinfo.example.com.studentform.R;
 

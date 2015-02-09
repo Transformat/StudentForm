@@ -14,7 +14,7 @@ import studentinfo.example.com.studentform.entities.Student;
 
 
 public class ListAdapter extends BaseAdapter {
-    List<Student> students;
+    public List<Student> students;
     Context ctx;
 
     public ListAdapter(List<Student> students, Context ctx) {
@@ -51,7 +51,6 @@ public class ListAdapter extends BaseAdapter {
 
         holder.name.setText(students.get(position).name);
         holder.rollno.setText(students.get(position).rollno);
-
         return view;
 
     }
@@ -62,7 +61,7 @@ class ViewHolder {
     TextView rollno;
 
     public ViewHolder(View view) {
-        name = (TextView) view.findViewById(R.id.name_data);
-        rollno = (TextView) view.findViewById(R.id.roll_data);
+        name = (TextView) view.findViewById(R.id.name_data_grid);
+        rollno = (TextView) view.findViewById(R.id.roll_data_grid);
     }
 }

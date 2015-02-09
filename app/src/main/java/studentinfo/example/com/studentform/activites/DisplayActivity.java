@@ -2,6 +2,7 @@ package studentinfo.example.com.studentform.activites;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,6 @@ import studentinfo.example.com.studentform.R;
 import studentinfo.example.com.studentform.entities.Student;
 import studentinfo.example.com.studentform.util.AppConstants;
 import studentinfo.example.com.studentform.util.DbController;
-import studentinfo.example.com.studentform.util.GridViewAdapter;
 import studentinfo.example.com.studentform.util.ListAdapter;
 
 
@@ -32,7 +31,7 @@ public class DisplayActivity extends Activity implements AppConstants {
     ListView listView;
     GridView displayGrid;
     ListAdapter adapter;
-    GridViewAdapter gridAdapter;
+
     List<Student> student;
     Dialog dialog;
     Button getDetails;
@@ -42,6 +41,7 @@ public class DisplayActivity extends Activity implements AppConstants {
     Button displayListButton;
     Button displayGridButton;
     Spinner spinner;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,6 @@ public class DisplayActivity extends Activity implements AppConstants {
         setContentView(R.layout.activity_display);
         displayListButton = (Button) findViewById(R.id.button_list_view);
         displayGridButton = (Button) findViewById(R.id.button_grid_view);
-        getDetails = (Button) findViewById(R.id.get_details);
         displayListButton.setBackgroundColor(0xff3b70cb);
         displayGridButton.setBackgroundColor(0xFFD6D7D7);
         listView = (ListView) findViewById(R.id.listView);
@@ -61,16 +60,12 @@ public class DisplayActivity extends Activity implements AppConstants {
         spinnerList.add("Name");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList);
         student = new ArrayList<>();
-        student.clear();
-        dbController = new DbController(DisplayActivity.this);
-        dbController.dbOpen();
-        student = dbController.dbView();
-        dbController.dbClose();
         adapter = new ListAdapter(student, DisplayActivity.this);
-        gridAdapter = new GridViewAdapter(student, DisplayActivity.this);
-        displayGrid.setAdapter(gridAdapter);
         spinner.setAdapter(spinnerAdapter);
+        displayGrid.setAdapter(adapter);
         listView.setAdapter(adapter);
+        dbController = new DbController(DisplayActivity.this);
+        new AsyncProcess().execute("view");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,26 +84,25 @@ public class DisplayActivity extends Activity implements AppConstants {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (student.size() > 1) {
+                if (adapter.students.size() > 1) {
                     if (position == 1) {
-                        Collections.sort(student, new Comparator<Student>() {
+                        Collections.sort(adapter.students, new Comparator<Student>() {
                             @Override
                             public int compare(Student lhs, Student rhs) {
                                 return Integer.parseInt(lhs.rollno) - Integer.parseInt(rhs.rollno);
                             }
                         });
                         adapter.notifyDataSetChanged();
-                        gridAdapter.notifyDataSetChanged();
+
                     }
                     if (position == 2) {
-                        Collections.sort(student, new Comparator<Student>() {
+                        Collections.sort(adapter.students, new Comparator<Student>() {
                             @Override
                             public int compare(Student lhs, Student rhs) {
                                 return lhs.name.compareTo(rhs.name);
                             }
                         });
                         adapter.notifyDataSetChanged();
-                        gridAdapter.notifyDataSetChanged();
                     }
                     spinner.setSelection(0);
                 }
@@ -118,8 +112,6 @@ public class DisplayActivity extends Activity implements AppConstants {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-
     }
 
     public void onClick(View view) {
@@ -141,14 +133,10 @@ public class DisplayActivity extends Activity implements AppConstants {
                 displayGridButton.setBackgroundColor(0xff3b70cb);
                 displayListButton.setBackgroundColor(0xFFD6D7D7);
                 break;
-            case R.id.get_details:
-                dbController.dbOpen();
-                student = dbController.dbView();
-                dbController.dbClose();
+            default:
                 break;
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -159,7 +147,7 @@ public class DisplayActivity extends Activity implements AppConstants {
                 String getRoll = data.getStringExtra("rollno");
                 String getPhone = data.getStringExtra("phone");
                 String getAddress = data.getStringExtra("address");
-                student.add(new Student(getName, getRoll, getPhone, getAddress));
+                adapter.students.add(new Student(getName, getRoll, getPhone, getAddress));
                 Collections.sort(student, new Comparator<Student>() {
                     @Override
                     public int compare(Student lhs, Student rhs) {
@@ -170,7 +158,6 @@ public class DisplayActivity extends Activity implements AppConstants {
                 dbController.dbInsert(new Student(getName, getRoll, getPhone, getAddress));
                 dbController.dbClose();
                 adapter.notifyDataSetChanged();
-                gridAdapter.notifyDataSetChanged();
             } else if (resultCode == RESULT_CANCELED) {
             }
 
@@ -181,21 +168,21 @@ public class DisplayActivity extends Activity implements AppConstants {
                 String getRoll = data.getStringExtra("rollno");
                 String getPhone = data.getStringExtra("phone");
                 String getAddress = data.getStringExtra("address");
-                student.get(clickPosition).name = getName;
-                student.get(clickPosition).rollno = getRoll;
-                student.get(clickPosition).phoneNumber = getPhone;
-                student.get(clickPosition).address = getAddress;
-                Collections.sort(student, new Comparator<Student>() {
+                adapter.students.get(clickPosition).name = getName;
+                adapter.students.get(clickPosition).rollno = getRoll;
+                adapter.students.get(clickPosition).phoneNumber = getPhone;
+                adapter.students.get(clickPosition).address = getAddress;
+                Collections.sort(adapter.students, new Comparator<Student>() {
                     @Override
                     public int compare(Student lhs, Student rhs) {
                         return lhs.name.compareTo(rhs.name);
                     }
                 });
                 dbController.dbOpen();
-                dbController.dbUpdate(student.get(clickPosition));
+                dbController.dbUpdate(adapter.students.get(clickPosition));
                 dbController.dbClose();
                 adapter.notifyDataSetChanged();
-                gridAdapter.notifyDataSetChanged();
+
             } else if (resultCode == RESULT_CANCELED) {
             }
         }
@@ -204,7 +191,7 @@ public class DisplayActivity extends Activity implements AppConstants {
     }
 
     public void displayDialog(int postionRecieved) {
-        final int position = postionRecieved;
+        position = postionRecieved;
         dialog = new Dialog(DisplayActivity.this);
         dialog.setContentView(R.layout.dialogbox);
         dialog.setTitle("Select an option.");
@@ -215,15 +202,8 @@ public class DisplayActivity extends Activity implements AppConstants {
         dialogDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbController.dbOpen();
-                int resultDelete = dbController.dbDelete(student.get(position));
-                dbController.dbClose();
-                if (resultDelete == 1) {
-                    student.remove(position);
-                    Toast.makeText(DisplayActivity.this, "Item removed sucessfully", Toast.LENGTH_SHORT).show();
-                }
-                adapter.notifyDataSetChanged();
-                gridAdapter.notifyDataSetChanged();
+
+                new AsyncProcess().execute("delete");
                 dialog.dismiss();
             }
         });
@@ -233,10 +213,10 @@ public class DisplayActivity extends Activity implements AppConstants {
                 clickPosition = position;
                 Intent intent = new Intent(DisplayActivity.this, EnterInfoActivity.class);
                 intent.putExtra("requestCode", RECEIVE_CODE_EDIT);
-                intent.putExtra("name", student.get(position).name);
-                intent.putExtra("roll", student.get(position).rollno);
-                intent.putExtra("phone", student.get(position).phoneNumber);
-                intent.putExtra("address", student.get(position).address);
+                intent.putExtra("name", adapter.students.get(position).name);
+                intent.putExtra("roll", adapter.students.get(position).rollno);
+                intent.putExtra("phone", adapter.students.get(position).phoneNumber);
+                intent.putExtra("address", adapter.students.get(position).address);
                 startActivityForResult(intent, REQUEST_CODE_EDIT_STUDENT);
                 dialog.dismiss();
             }
@@ -246,15 +226,57 @@ public class DisplayActivity extends Activity implements AppConstants {
             public void onClick(View v) {
                 Intent intent = new Intent(DisplayActivity.this, EnterInfoActivity.class);
                 intent.putExtra("requestCode", RECEIVE_CODE_VIEW);
-                intent.putExtra("name", student.get(position).name);
-                intent.putExtra("roll", student.get(position).rollno);
-                intent.putExtra("phone", student.get(position).phoneNumber);
-                intent.putExtra("address", student.get(position).address);
+                intent.putExtra("name", adapter.students.get(position).name);
+                intent.putExtra("roll", adapter.students.get(position).rollno);
+                intent.putExtra("phone", adapter.students.get(position).phoneNumber);
+                intent.putExtra("address", adapter.students.get(position).address);
                 startActivityForResult(intent, REQUEST_CODE_VIEW_STUDENT);
                 dialog.dismiss();
             }
         });
         dialog.show();
+    }
+
+    class AsyncProcess extends android.os.AsyncTask<String, String, String> {
+        ProgressDialog progressDialog = new ProgressDialog(DisplayActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage("Loading Data...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.show();
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (params[0].equals("view")) {
+                dbController.dbOpen();
+                adapter.students = dbController.dbView();
+                dbController.dbClose();
+            } else if (params[0].equals("delete")) {
+                dbController.dbOpen();
+                int resultDelete = dbController.dbDelete(adapter.students.get(position));
+                dbController.dbClose();
+                if (resultDelete == 1) {
+                    adapter.students.remove(position);
+                }
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            adapter.notifyDataSetChanged();
+            progressDialog.dismiss();
+        }
     }
 }
 

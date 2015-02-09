@@ -17,42 +17,40 @@
             android:layout_marginLeft="30dp"
             android:text="Name:"
             android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/name_data"
-            android:layout_width="match_parent"
+            android:id="@+id/name_data_grid"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="namedata"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="15sp"
 
             />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/rollno_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="30dp"
             android:text="Rollno:"
             android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/roll_data"
-            android:layout_width="fill_parent"
+            android:id="@+id/roll_data_grid"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="rolldata"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="15sp"
 
             />
     </LinearLayout>

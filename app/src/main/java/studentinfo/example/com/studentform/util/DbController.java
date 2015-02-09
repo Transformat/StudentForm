@@ -39,7 +39,7 @@ public class DbController implements DbConstants {
             cv.put(STUDENT_PHONE, student.phoneNumber);
             cv.put(STUDENT_ADDRESS, student.address);
             db.insert("student_info", null, cv);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("except", e.toString());
         }
     }

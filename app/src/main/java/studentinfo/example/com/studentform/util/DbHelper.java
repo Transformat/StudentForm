@@ -19,8 +19,8 @@ public class DbHelper extends SQLiteOpenHelper implements DbConstants {
         try {
             db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + STUDENT_ROLL + " INT PRIMARY KEY," +
                     STUDENT_NAME + " TEXT NOT NULL," + STUDENT_PHONE + " TEXT NOT NULL," + STUDENT_ADDRESS + " TEXT NOT NULL);");
-        }catch (Exception e){
-            Log.d("ex",e.toString());
+        } catch (Exception e) {
+            Log.d("ex", e.toString());
         }
 
     }
